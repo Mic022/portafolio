@@ -1,0 +1,865 @@
+/* ============================================================
+   SISTEMA — Mapa de Metro / Wayfinding
+   Ground: papel de mapa casi blanco, grid negro real.
+   Cada capa del portafolio = una línea de color sólido.
+   Ver .impeccable/surfaces/index-html.md para el contrato de dirección.
+   ============================================================ */
+:root {
+  --paper: #faf9f6;
+  --paper-line: rgba(20, 22, 28, 0.09);
+  --ink: #14161c;
+  --ink-soft: #4a4d57;      /* tinte de ink, nunca gris puro */
+  --ink-faint: #5c5f68;   /* darkened from #7a7d87: 3.9:1 failed AA body text, this reads 6.0:1 */
+
+  /* Colores de línea — saturados, uso gráfico (rieles, aros, puntos) */
+  --red: #e3392e;
+  --blue: #1e5fd9;
+  --green: #1e8e4f;
+
+  /* Variantes -ink de cada línea — únicas seguras para texto (≥4.5:1 en papel) */
+  --red-ink: #b7291f;
+  --blue-ink: #1a4fb8;
+  --green-ink: #157a42;
+
+  --station-r: 15px;    /* radio de un punto de estación */
+  --rail-w: 5px;
+  --rail-col: 68px;     /* ancho de la columna del riel */
+
+  --font-display: "Big Shoulders Display", "Arial Narrow", sans-serif;
+  --font-body: "Public Sans", system-ui, sans-serif;
+
+  --focus-ring: 3px solid var(--ink);
+}
+
+* { box-sizing: border-box; }
+html { scroll-behavior: smooth; }
+body {
+  margin: 0;
+  background: var(--paper);
+  color: var(--ink);
+  font-family: var(--font-body);
+  font-feature-settings: "tnum" 1, "lnum" 1; /* tabular figures */
+  line-height: 1.6;
+}
+img { max-width: 100%; display: block; }
+p { margin: 0; color: var(--ink-soft); }
+h1, h2, h3, h4 { margin: 0; font-family: var(--font-display); font-weight: 800; letter-spacing: -0.01em; }
+a { color: inherit; }
+button { font: inherit; background: none; border: none; cursor: pointer; color: inherit; }
+
+/* ============================================================
+   RASTREAR CONEXIONES — cualquier tag/chip/skill es un botón que
+   traza qué otras estaciones comparten esa misma tecnología.
+   ============================================================ */
+.tech-btn { transition: background 0.15s ease, color 0.15s ease, opacity 0.2s ease, border-color 0.15s ease; }
+.tech-btn:hover { border-color: var(--ink); color: var(--ink); }
+.tech-btn.is-traced {
+  background: var(--ink);
+  color: var(--paper) !important;
+  border-color: var(--ink) !important;
+}
+.tech-btn.is-dimmed { opacity: 0.35; }
+.station.is-traced .station-dot { box-shadow: 0 0 0 5px var(--paper), 0 0 0 8px var(--ink); }
+.station.is-traced .station-content { background: rgba(20, 22, 28, 0.04); }
+ul { margin: 0; padding: 0; list-style: none; }
+
+::selection { background: var(--ink); color: var(--paper); }
+::-webkit-scrollbar { width: 12px; }
+::-webkit-scrollbar-track { background: var(--paper); }
+::-webkit-scrollbar-thumb { background: var(--ink-faint); border: 3px solid var(--paper); border-radius: 999px; }
+
+a:focus-visible, button:focus-visible, [tabindex]:focus-visible {
+  outline: var(--focus-ring);
+  outline-offset: 3px;
+}
+
+/* Grid de fondo tipo "papel de mapa" — muy sutil, decorativo */
+.map-ground {
+  background-image:
+    linear-gradient(var(--paper-line) 1px, transparent 1px),
+    linear-gradient(90deg, var(--paper-line) 1px, transparent 1px);
+  background-size: 40px 40px;
+}
+
+/* ============================================================
+   TICKER — cabecera fija, tablero de próxima parada
+   ============================================================ */
+.ticker {
+  position: sticky;
+  top: 0;
+  z-index: 50;
+  background: var(--ink);
+  color: var(--paper);
+  display: flex;
+  align-items: center;
+  gap: 24px;
+  padding: 10px 24px;
+  min-height: 52px;
+  font-family: var(--font-display);
+}
+.ticker-brand {
+  font-weight: 800;
+  font-size: 18px;
+  letter-spacing: 0.02em;
+  white-space: nowrap;
+}
+.ticker-brand .dot { color: var(--red); }
+.ticker-next {
+  display: flex;
+  align-items: baseline;
+  gap: 10px;
+  overflow: hidden;
+  flex: 1;
+  min-width: 0;
+}
+.ticker-label {
+  font-size: 12px;
+  color: rgba(250, 249, 246, 0.55);
+  font-family: var(--font-body);
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  white-space: nowrap;
+}
+.ticker-station {
+  font-size: 19px;
+  font-weight: 700;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  transition: text-shadow 0.4s ease, color 0.4s ease;
+}
+/* Raise donado por el mundo "neón": único acento con glow, contenido a este único lugar */
+.ticker-station[data-line="red"] { color: #ff8079; text-shadow: 0 6px 18px rgba(227, 57, 46, 0.55); }
+.ticker-station[data-line="blue"] { color: #86a9ff; text-shadow: 0 6px 18px rgba(30, 95, 217, 0.55); }
+.ticker-station[data-line="green"] { color: #7be0a4; text-shadow: 0 6px 18px rgba(30, 142, 79, 0.55); }
+
+.ticker-nav {
+  display: flex;
+  gap: 4px;
+  flex-shrink: 0;
+}
+.ticker-nav a {
+  font-family: var(--font-body);
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+  padding: 7px 12px;
+  border-radius: 3px;
+  border: 1.5px solid rgba(250, 249, 246, 0.25);
+  white-space: nowrap;
+}
+.ticker-nav a:hover { border-color: var(--paper); }
+
+@media (max-width: 720px) {
+  .ticker-nav { display: none; }
+  .ticker-label { display: none; }
+}
+
+/* ============================================================
+   ORIGEN — primer viewport, el mapa completo a la vista
+   ============================================================ */
+.origin {
+  padding: 72px 24px 56px;
+  max-width: 1180px;
+  margin: 0 auto;
+}
+.origin-top {
+  display: flex;
+  gap: 32px;
+  align-items: flex-start;
+  flex-wrap: wrap;
+}
+.origin-badge-wrap { flex-shrink: 0; text-align: center; }
+.origin-badge {
+  width: 128px;
+  height: 128px;
+  border-radius: 50%;
+  background: var(--ink);
+  border: 5px solid var(--paper);
+  outline: 3px solid var(--ink);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: var(--font-display);
+  font-size: 44px;
+  font-weight: 800;
+  color: var(--paper);
+  overflow: hidden; /* recorta una <img> real en círculo, si se reemplaza el badge */
+}
+.origin-badge img { width: 100%; height: 100%; object-fit: cover; }
+.origin-here {
+  margin-top: 10px;
+  font-family: var(--font-display);
+  font-weight: 800;
+  font-size: 0.72rem;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  color: var(--ink);
+  border: 2px solid var(--ink);
+  padding: 3px 8px;
+  display: inline-block;
+}
+
+/* Diagrama del sistema — las 3 líneas en ángulo, desde el origen */
+.origin-schema { display: block; width: 100%; height: auto; margin: 36px 0 28px; overflow: visible; }
+.schema-origin { fill: var(--ink); }
+
+/* Cada línea del diagrama es un enlace real — planificador de ruta:
+   lleva directo a esa sección del mapa. */
+.schema-route { cursor: pointer; }
+.schema-route.schema-red { color: var(--red); }
+.schema-route.schema-blue { color: var(--blue); }
+.schema-route.schema-green { color: var(--green); }
+.schema-line { fill: none; stroke: currentColor; stroke-width: 7; stroke-linecap: round; stroke-linejoin: round; transition: stroke-width 0.15s ease; }
+.schema-dot { stroke: currentColor; stroke-width: 4; fill: var(--paper); transition: r 0.15s ease; }
+.schema-label { font-family: var(--font-display); font-weight: 800; font-size: 26px; fill: currentColor; }
+.schema-route.schema-red .schema-label { fill: var(--red-ink); }
+.schema-route.schema-blue .schema-label { fill: var(--blue-ink); }
+.schema-route.schema-green .schema-label { fill: var(--green-ink); }
+.schema-route:hover .schema-line,
+.schema-route:focus-visible .schema-line { stroke-width: 10; }
+.schema-route:hover .schema-dot,
+.schema-route:focus-visible .schema-dot { r: 12; }
+.schema-route:focus-visible { outline: 3px solid var(--ink); outline-offset: 4px; }
+.origin-text { flex: 1; min-width: 280px; }
+.origin-name {
+  font-size: clamp(2.4rem, 6vw, 4rem);
+  line-height: 0.98;
+}
+.origin-role {
+  font-family: var(--font-display);
+  font-weight: 700;
+  font-size: clamp(1.15rem, 2.4vw, 1.5rem);
+  color: var(--ink);
+  margin-top: 6px;
+}
+.origin-pitch {
+  font-size: 1.08rem;
+  max-width: 70ch;
+  margin-top: 18px;
+}
+
+/* Leyenda del sistema — las 3 líneas, visibles desde el primer scroll */
+.legend {
+  margin-top: 40px;
+  border-top: 3px solid var(--ink);
+  padding-top: 20px;
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 20px;
+}
+.legend-line { display: flex; gap: 14px; align-items: flex-start; }
+.legend-swatch {
+  flex-shrink: 0;
+  width: 34px;
+  height: 34px;
+  border-radius: 50%;
+  border: 4px solid var(--ink);
+  margin-top: 2px;
+}
+.legend-line[data-line="red"] .legend-swatch { background: var(--red); }
+.legend-line[data-line="blue"] .legend-swatch { background: var(--blue); }
+.legend-line[data-line="green"] .legend-swatch { background: var(--green); }
+.legend-name {
+  font-family: var(--font-display);
+  font-weight: 800;
+  font-size: 1.05rem;
+  text-transform: uppercase;
+}
+.legend-line[data-line="red"] .legend-name { color: var(--red-ink); }
+.legend-line[data-line="blue"] .legend-name { color: var(--blue-ink); }
+.legend-line[data-line="green"] .legend-name { color: var(--green-ink); }
+.legend-desc { font-size: 0.88rem; margin-top: 2px; }
+.legend-link {
+  display: inline-block;
+  margin-top: 8px;
+  font-size: 0.82rem;
+  font-weight: 700;
+  text-decoration: underline;
+  text-underline-offset: 3px;
+}
+
+@media (max-width: 780px) {
+  .legend { grid-template-columns: 1fr; }
+}
+
+/* ============================================================
+   LÍNEAS — cada capa del documento es un tramo de riel
+   ============================================================ */
+.line {
+  position: relative;
+  max-width: 1180px;
+  margin: 0 auto;
+  padding: 8px 24px 8px;
+}
+
+/* Tren en vivo: viaja suave por el riel activo mientras se hace scroll,
+   en vez de solo saltar de estación en estación. */
+.rail-train {
+  position: absolute;
+  left: calc(24px + var(--rail-col) / 2);
+  top: 0;
+  width: 18px;
+  height: 18px;
+  border-radius: 50%;
+  background: var(--from-line, var(--ink));
+  border: 3px solid var(--paper);
+  box-shadow: 0 3px 8px rgba(20, 22, 28, 0.35);
+  transform: translate(-50%, -50%);
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.25s ease;
+  z-index: 2;
+}
+.line[data-line="red"] .rail-train { --from-line: var(--red); }
+.line[data-line="blue"] .rail-train { --from-line: var(--blue); }
+.line[data-line="green"] .rail-train { --from-line: var(--green); }
+.rail-train.is-visible { opacity: 1; }
+.line-head {
+  display: grid;
+  grid-template-columns: var(--rail-col) 1fr;
+  padding: 40px 0 8px;
+}
+.line-head-mark { position: relative; }
+.line-head-title {
+  font-size: clamp(1.7rem, 3.4vw, 2.5rem);
+  text-transform: uppercase;
+}
+.line[data-line="red"] .line-head-title { color: var(--red-ink); }
+.line[data-line="blue"] .line-head-title { color: var(--blue-ink); }
+.line[data-line="green"] .line-head-title { color: var(--green-ink); }
+.line-head-sub { font-size: 0.98rem; margin-top: 4px; max-width: 70ch; }
+
+/* Fila de estación: riel a la izquierda + contenido a la derecha */
+.station {
+  display: grid;
+  grid-template-columns: var(--rail-col) 1fr;
+  min-height: 108px;
+}
+.station-rail { position: relative; }
+.station-rail::before {
+  content: "";
+  position: absolute;
+  left: 50%;
+  top: 0;
+  bottom: 0;
+  width: var(--rail-w);
+  transform: translateX(-50%);
+  background: currentColor;
+}
+.line[data-line="red"] { --line-color: var(--red); }
+.line[data-line="blue"] { --line-color: var(--blue); }
+.line[data-line="green"] { --line-color: var(--green); }
+.line[data-line="red"] .station-rail { color: var(--red); }
+.line[data-line="blue"] .station-rail { color: var(--blue); }
+.line[data-line="green"] .station-rail { color: var(--green); }
+
+.station-rail--start::before { top: 50%; }
+.station-rail--end::before { bottom: calc(50% - var(--rail-w) / 2); }
+
+.station-dot {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+  width: calc(var(--station-r) * 2);
+  height: calc(var(--station-r) * 2);
+  border-radius: 50%;
+  background: var(--paper);
+  border: 4px solid currentColor;
+  transition: background 0.3s ease, box-shadow 0.3s ease;
+}
+.station.is-passed .station-dot { background: currentColor; }
+.station.is-active .station-dot {
+  background: currentColor;
+  box-shadow: 0 6px 16px -2px currentColor;
+}
+
+.station-content { padding: 16px 0 28px 28px; }
+/* Código de estación: referencia de mapa real (como "42 ST"), inline junto
+   al nombre — no un eyebrow decorativo apilado arriba del heading. */
+.station-code {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  font-family: var(--font-display);
+  font-weight: 800;
+  font-size: 0.72rem;
+  line-height: 1;
+  padding: 4px 6px 2px;
+  margin-right: 8px;
+  border: 2px solid currentColor;
+  vertical-align: middle;
+  position: relative;
+  top: -2px;
+  transition: background 0.2s ease, color 0.2s ease, border-color 0.2s ease;
+}
+.station-name {
+  font-size: 1.3rem;
+}
+.station-desc { margin-top: 8px; max-width: 70ch; font-size: 0.98rem; }
+.station-desc strong { color: var(--ink); }
+.station-desc + .station-desc { margin-top: 6px; }
+
+/* Estación terminal (proyectos) — más peso, más contenido */
+.station--terminal .station-content { padding-bottom: 36px; }
+.station--terminal .station-name { font-size: 1.55rem; }
+
+/* Hover notorio en cualquier estación del mapa: la parada "se enciende"
+   al pasar el mouse, como si el tren se acercara — lavado de color de
+   línea, el punto se llena con el mismo glow de "activa", y el código
+   de estación se invierte. */
+.station-content {
+  transition: background 0.2s ease, transform 0.2s ease;
+}
+.station:hover .station-content {
+  background: color-mix(in srgb, var(--line-color, var(--ink)) 6%, var(--paper));
+  transform: translateX(4px);
+}
+.station:hover .station-dot {
+  background: currentColor;
+  box-shadow: 0 6px 16px -2px currentColor;
+}
+.station:hover .station-code {
+  background: var(--ink);
+  color: var(--paper);
+  border-color: var(--ink);
+}
+.station-meta {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-top: 14px;
+}
+.station-tag {
+  font-family: var(--font-body);
+  font-size: 0.76rem;
+  font-weight: 700;
+  letter-spacing: 0.02em;
+  padding: 4px 10px;
+  border: 1.5px solid var(--ink);
+  border-radius: 3px;
+  color: var(--ink);
+}
+.station-links { display: flex; gap: 18px; margin-top: 12px; flex-wrap: wrap; align-items: center; }
+.station-links a { font-weight: 700; font-size: 0.9rem; text-decoration: underline; text-underline-offset: 3px; }
+.station-open {
+  font-family: var(--font-body);
+  font-weight: 700;
+  font-size: 0.9rem;
+  color: var(--green-ink);
+  margin-left: auto;
+}
+.station-open:hover { text-decoration: underline; text-underline-offset: 3px; }
+
+/* Interchange — punto donde una línea entrega a la siguiente */
+.interchange {
+  display: grid;
+  grid-template-columns: var(--rail-col) 1fr;
+  align-items: center;
+  max-width: 1180px;
+  margin: 0 auto;
+  padding: 0 24px;
+}
+.interchange-rail { position: relative; height: 64px; }
+.interchange-rail::before,
+.interchange-rail::after {
+  content: "";
+  position: absolute;
+  left: 50%;
+  width: var(--rail-w);
+  transform: translateX(-50%);
+}
+/* Quiebre real en ángulo en la combinación — no solo una recta que cambia
+   de color: el riel se desvía como en un mapa de metro real. */
+.interchange-rail::before {
+  top: 0; height: 50%; background: var(--from-color);
+  transform-origin: bottom center;
+  transform: translateX(-50%) rotate(-16deg);
+}
+.interchange-rail::after {
+  bottom: 0; height: 50%; background: var(--to-color);
+  transform-origin: top center;
+  transform: translateX(-50%) rotate(16deg);
+}
+.interchange-dot {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%) rotate(45deg);
+  width: 22px;
+  height: 22px;
+  background: var(--paper);
+  border: 4px solid var(--ink);
+}
+.interchange-label {
+  font-family: var(--font-body);
+  font-weight: 700;
+  font-size: 0.85rem;
+  line-height: 1.4;
+  color: var(--ink-faint);
+}
+.interchange-label strong { color: var(--ink); }
+.interchange[data-from="red"][data-to="blue"] { --from-color: var(--red); --to-color: var(--blue); }
+.interchange[data-from="blue"][data-to="green"] { --from-color: var(--blue); --to-color: var(--green); }
+
+/* ============================================================
+   PANEL DE LEYENDA — stack técnico + habilidades blandas
+   (reemplaza la grilla de cards por una placa de referencia)
+   ============================================================ */
+.plaque {
+  border: 3px solid var(--ink);
+  padding: 24px 26px;
+  margin: 4px 0 0 28px;
+  background: var(--paper);
+}
+.plaque-title {
+  font-family: var(--font-display);
+  font-weight: 800;
+  font-size: 1.1rem;
+  text-transform: uppercase;
+  border-bottom: 2px solid var(--ink);
+  padding-bottom: 10px;
+  margin-bottom: 16px;
+}
+.skill-row {
+  display: grid;
+  grid-template-columns: 1fr auto;
+  align-items: center;
+  gap: 12px;
+  padding: 8px 0;
+  border-bottom: 1px solid var(--paper-line);
+}
+.skill-row:last-child { border-bottom: none; }
+.skill-name { font-weight: 600; font-size: 0.95rem; }
+.skill-level { display: flex; align-items: center; gap: 10px; }
+.skill-level-label { font-size: 0.78rem; color: var(--ink-faint); font-weight: 700; text-transform: uppercase; }
+.skill-dots { display: flex; gap: 5px; }
+.skill-dots span {
+  width: 9px; height: 9px; border-radius: 50%;
+  border: 1.5px solid var(--ink);
+  background: transparent;
+}
+.skill-dots span.is-filled { background: var(--ink); }
+
+.plaque-groups {
+  margin-top: 20px;
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 14px 24px;
+}
+.plaque-group h4 {
+  font-family: var(--font-body);
+  font-size: 0.78rem;
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--ink-faint);
+  margin-bottom: 8px;
+}
+.chip-row { display: flex; flex-wrap: wrap; gap: 6px; }
+.chip {
+  font-size: 0.78rem;
+  font-weight: 600;
+  padding: 4px 9px;
+  border: 1.5px solid var(--ink-faint);
+  border-radius: 3px;
+  color: var(--ink-soft);
+}
+
+.notice {
+  margin: 20px 0 0 28px;
+  border: 2px solid var(--ink);
+  padding: 14px 18px;
+  background: var(--paper);
+}
+.notice strong { font-family: var(--font-display); text-transform: uppercase; font-size: 0.85rem; letter-spacing: 0.03em; }
+.notice p { margin-top: 4px; font-size: 0.9rem; }
+.notice-list { margin-top: 10px; display: grid; gap: 7px; }
+.notice-list li { position: relative; padding-left: 18px; font-size: 0.9rem; color: var(--ink-soft); }
+.notice-list li::before {
+  content: "";
+  position: absolute;
+  left: 0;
+  top: 0.6em;
+  width: 9px;
+  height: 2px;
+  background: var(--ink);
+}
+.notice-list strong { color: var(--ink); text-transform: none; font-family: var(--font-body); font-weight: 700; letter-spacing: normal; }
+.notice-sub { display: block; margin-top: 2px; font-size: 0.82rem; color: var(--ink-faint); }
+
+/* Habilidades blandas — fila de placas pictográficas, no cards apiladas */
+.soft-skills {
+  margin: 24px 0 0 28px;
+}
+.soft-skills-list {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  border-top: 3px solid var(--ink);
+  border-left: 3px solid var(--ink);
+}
+.soft-skill {
+  border-right: 3px solid var(--ink);
+  border-bottom: 3px solid var(--ink);
+  padding: 16px 16px 18px;
+}
+.soft-skill-icon { width: 26px; height: 26px; color: var(--ink); }
+.soft-skill h4 { font-size: 0.98rem; margin-top: 10px; }
+.soft-skill p { font-size: 0.84rem; margin-top: 4px; }
+
+@media (max-width: 780px) {
+  .plaque-groups { grid-template-columns: 1fr; }
+  .soft-skills-list { grid-template-columns: 1fr 1fr; }
+}
+@media (max-width: 520px) {
+  .soft-skills-list { grid-template-columns: 1fr; }
+}
+
+/* ============================================================
+   TERMINAL — Contacto, fin de línea
+   ============================================================ */
+.terminus {
+  max-width: 1180px;
+  margin: 0 auto;
+  padding: 8px 24px 80px;
+}
+.terminus-head { display: grid; grid-template-columns: var(--rail-col) 1fr; }
+.terminus-cap { position: relative; height: 40px; }
+.terminus-cap::before {
+  content: "";
+  position: absolute;
+  left: 50%; top: 0; height: 50%;
+  width: var(--rail-w);
+  transform: translateX(-50%);
+  background: var(--green);
+}
+.terminus-cap::after {
+  content: "";
+  position: absolute;
+  left: 50%; bottom: 6px;
+  transform: translateX(-50%);
+  width: 30px; height: 8px;
+  background: var(--ink);
+}
+.terminus-title { font-size: clamp(1.9rem, 4vw, 2.7rem); color: var(--green-ink); text-transform: uppercase; padding-top: 4px; }
+.terminus-sub { margin-top: 6px; max-width: 55ch; }
+
+.facilities {
+  margin: 28px 0 0 28px;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 12px;
+}
+.facility {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  border: 2px solid var(--ink);
+  padding: 14px 16px;
+  color: var(--ink);
+  text-decoration: none;
+  transition: background 0.15s ease, color 0.15s ease;
+}
+.facility:hover, .facility:focus-visible {
+  background: var(--ink);
+  color: var(--paper);
+}
+.facility-icon {
+  flex-shrink: 0;
+  width: 38px; height: 38px;
+  border: 2px solid currentColor;
+  display: flex; align-items: center; justify-content: center;
+}
+.facility-icon svg { width: 20px; height: 20px; }
+.facility-text { font-weight: 600; font-size: 0.92rem; word-break: break-word; }
+.facility-copy-hint { font-size: 0.72rem; color: var(--ink-faint); margin-left: auto; opacity: 0; transition: opacity .15s ease; flex-shrink: 0; }
+.facility--copy:hover .facility-copy-hint,
+.facility--copy.is-copied .facility-copy-hint { opacity: 1; }
+
+.terminus-cta {
+  margin: 24px 0 0 28px;
+  display: flex;
+  align-items: center;
+  gap: 18px;
+  flex-wrap: wrap;
+}
+.ticket-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  padding: 14px 22px;
+  background: var(--ink);
+  color: var(--paper);
+  font-family: var(--font-display);
+  font-weight: 700;
+  font-size: 1.05rem;
+  text-transform: uppercase;
+  border: 2px solid var(--ink);
+}
+.ticket-btn:hover { background: var(--green-ink); border-color: var(--green-ink); }
+.terminus-note { font-size: 0.82rem; color: var(--ink-faint); }
+
+/* ============================================================
+   COLOFÓN
+   ============================================================ */
+.colophon {
+  border-top: 3px solid var(--ink);
+  padding: 22px 24px;
+  text-align: center;
+}
+.colophon p { font-size: 0.78rem; color: var(--ink-faint); }
+
+/* Overlay de líneas de transferencia (rastrear conexiones) */
+.trace-overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  pointer-events: none;
+  z-index: 3;
+  overflow: visible;
+}
+.trace-line {
+  fill: none;
+  stroke: var(--ink);
+  stroke-width: 2.5;
+  stroke-dasharray: 2 7;
+  stroke-linecap: round;
+  opacity: 0;
+  transition: opacity 0.25s ease;
+}
+.trace-line.is-visible { opacity: 0.6; animation: trace-dash 0.6s linear infinite; }
+@keyframes trace-dash { to { stroke-dashoffset: -18; } }
+
+/* ============================================================
+   ANDÉN — "llegada a estación": detalle de proyecto a pantalla
+   completa. El color de la línea barre la pantalla desde el punto
+   donde se clickeó, después aparece el contenido.
+   ============================================================ */
+body.platform-open { overflow: hidden; }
+
+.station-platform {
+  position: fixed;
+  inset: 0;
+  z-index: 200;
+  --platform-line: var(--green);
+  --platform-line-ink: var(--green-ink);
+  --wipe-x: 50%;
+  --wipe-y: 50%;
+}
+.station-platform[hidden] { display: none; }
+
+.platform-wipe {
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  background: var(--platform-line);
+  clip-path: circle(0px at var(--wipe-x) var(--wipe-y));
+}
+.station-platform.is-open .platform-wipe {
+  clip-path: circle(150% at var(--wipe-x) var(--wipe-y));
+  transition: clip-path 0.55s cubic-bezier(0.65, 0, 0.35, 1);
+}
+.station-platform.is-closing .platform-wipe {
+  clip-path: circle(0px at var(--wipe-x) var(--wipe-y));
+  transition: clip-path 0.4s cubic-bezier(0.65, 0, 0.35, 1) 0.15s;
+}
+
+.platform-panel {
+  position: absolute;
+  inset: 0;
+  z-index: 2;
+  background: var(--paper);
+  overflow-y: auto;
+  opacity: 0;
+  transform: translateY(18px);
+}
+.station-platform.is-open .platform-panel {
+  opacity: 1;
+  transform: translateY(0);
+  transition: opacity 0.4s ease, transform 0.4s ease;
+  transition-delay: 0.28s;
+}
+.station-platform.is-closing .platform-panel {
+  opacity: 0;
+  transform: translateY(18px);
+  transition: opacity 0.25s ease, transform 0.25s ease;
+}
+
+.platform-close {
+  position: fixed;
+  top: 20px;
+  left: 20px;
+  z-index: 3;
+  font-family: var(--font-display);
+  font-weight: 700;
+  font-size: 0.85rem;
+  letter-spacing: 0.02em;
+  text-transform: uppercase;
+  padding: 10px 16px;
+  background: var(--ink);
+  color: var(--paper);
+  border: 2px solid var(--ink);
+}
+.platform-close:hover { background: var(--platform-line-ink); border-color: var(--platform-line-ink); }
+
+.platform-content {
+  max-width: 760px;
+  margin: 0 auto;
+  padding: 100px 24px 80px;
+}
+.platform-code {
+  font-family: var(--font-display);
+  font-weight: 800;
+  font-size: 0.9rem;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  color: var(--platform-line-ink);
+}
+.platform-title { font-size: clamp(1.8rem, 4vw, 2.6rem); margin-top: 6px; }
+.platform-facts { margin-top: 24px; display: grid; gap: 10px; }
+.platform-facts p { font-size: 1.05rem; }
+.platform-facts strong { color: var(--ink); }
+.platform-tags { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 20px; }
+.platform-section { margin-top: 40px; padding-top: 22px; border-top: 2px solid var(--ink); }
+.platform-section h3 { font-size: 1.05rem; letter-spacing: 0.02em; text-transform: uppercase; }
+.platform-placeholder { margin-top: 10px; font-style: italic; }
+.platform-placeholder em { color: var(--ink-soft); font-style: italic; }
+.platform-gallery { display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; margin-top: 16px; }
+.gallery-shot {
+  width: 100%;
+  aspect-ratio: 4 / 3;
+  object-fit: cover;
+  border: 2px solid var(--ink);
+  display: block;
+}
+.platform-links { margin-top: 40px; display: flex; gap: 20px; flex-wrap: wrap; align-items: center; }
+.platform-link-ghost { font-weight: 700; text-decoration: underline; text-underline-offset: 3px; }
+
+@media (max-width: 560px) {
+  .platform-content { padding: 88px 18px 64px; }
+  .platform-gallery { grid-template-columns: 1fr 1fr; }
+  .platform-close { top: 14px; left: 14px; padding: 8px 12px; font-size: 0.78rem; }
+}
+
+/* ============================================================
+   RESPONSIVE
+   ============================================================ */
+@media (max-width: 560px) {
+  :root { --rail-col: 48px; --station-r: 11px; }
+  .origin { padding: 56px 16px 40px; }
+  .origin-top { display: block; }
+  .origin-badge-wrap { width: max-content; } /* si no, text-align:center centra el pill en TODO el ancho, no bajo el badge */
+  .origin-badge { width: 92px; height: 92px; font-size: 32px; margin-bottom: 20px; }
+  .origin-text { min-width: 0; width: 100%; }
+  .origin-pitch { max-width: 100%; }
+  .line, .terminus, .interchange { padding-left: 16px; padding-right: 16px; }
+  .plaque, .notice, .soft-skills, .terminus-cta, .facilities { margin-left: 20px; }
+  .plaque-groups { grid-template-columns: 1fr; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html { scroll-behavior: auto; }
+  * { transition: none !important; animation: none !important; }
+}

@@ -1,0 +1,552 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Michael Santos — Sistema de Portafolio</title>
+<meta name="description" content="Portafolio de un desarrollador full-stack, leído como un mapa de sistema: identidad, servicios y evidencia, línea por línea.">
+<link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><circle cx=%2250%22 cy=%2250%22 r=%2242%22 fill=%22%2314161c%22/><circle cx=%2250%22 cy=%2250%22 r=%2242%22 fill=%22none%22 stroke=%22%23e3392e%22 stroke-width=%228%22/></svg>">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Big+Shoulders+Display:wght@700;800;900&family=Public+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="styles.css">
+</head>
+<body class="map-ground">
+
+<!-- ============================================================
+     TICKER — cabecera fija tipo tablero de próxima parada
+     ============================================================ -->
+<div class="ticker">
+  <span class="ticker-brand">M<span class="dot">·</span>SANTOS</span>
+  <div class="ticker-next">
+    <span class="ticker-label">PRÓXIMA PARADA</span>
+    <span class="ticker-station" id="tickerStation" data-line="red">Perfil profesional</span>
+  </div>
+  <nav class="ticker-nav">
+    <a href="#linea-identidad">Identidad</a>
+    <a href="#linea-servicios">Servicios</a>
+    <a href="#linea-evidencia">Proyectos</a>
+    <a href="#terminal-contacto">Contacto</a>
+  </nav>
+</div>
+
+<main id="scrollTrack">
+
+  <!-- ============================================================
+       ORIGEN — Capa 1: portada. El sistema completo, visible ya.
+       ============================================================ -->
+  <section class="origin">
+    <div class="origin-top">
+      <!-- Foto profesional (opcional, según Capa 1 del documento). Para
+           usar tu foto real, reemplazá el contenido de abajo por:
+           <img src="tu-foto.jpg" alt="Foto de Michael Santos"> -->
+      <div class="origin-badge-wrap">
+        <div class="origin-badge" aria-hidden="true">MS</div>
+        <p class="origin-here">Estás aquí</p>
+      </div>
+      <div class="origin-text">
+        <h1 class="origin-name">Michael Santos</h1>
+        <p class="origin-role">Full-Stack Developer</p>
+        <p class="origin-pitch">Construyo productos web de punta a punta: interfaces claras, APIs sólidas y código que se puede mantener. Este portafolio es un mapa de mi sistema — tres líneas, una por cada parte de lo que hago.</p>
+      </div>
+    </div>
+
+    <!-- Diagrama del sistema: las 3 líneas parten del origen en ángulos
+         distintos, como un mapa de metro real (no una lista plana).
+         Cada línea es clickeable: te lleva directo a esa parte del mapa
+         (planificador de ruta) y el riel se ilumina en el camino. -->
+    <svg class="origin-schema" viewBox="0 0 900 240" role="img"
+         aria-label="Diagrama del sistema: desde el origen (estás aquí) parten tres líneas en ángulos distintos — Identidad hacia arriba, Servicios recta, Evidencia hacia abajo. Cada línea es un enlace a esa sección.">
+      <circle class="schema-origin" cx="50" cy="120" r="13" />
+      <a href="#linea-identidad" class="schema-route schema-red" aria-label="Ir a la línea Identidad">
+        <path class="schema-line" d="M50,120 L170,50 L840,50" />
+        <circle class="schema-dot" cx="840" cy="50" r="9" />
+        <text class="schema-label" x="195" y="40">IDENTIDAD</text>
+      </a>
+      <a href="#linea-servicios" class="schema-route schema-blue" aria-label="Ir a la línea Servicios">
+        <path class="schema-line" d="M50,120 L840,120" />
+        <circle class="schema-dot" cx="840" cy="120" r="9" />
+        <text class="schema-label" x="195" y="110">SERVICIOS</text>
+      </a>
+      <a href="#linea-evidencia" class="schema-route schema-green" aria-label="Ir a la línea Evidencia">
+        <path class="schema-line" d="M50,120 L170,190 L840,190" />
+        <circle class="schema-dot" cx="840" cy="190" r="9" />
+        <text class="schema-label" x="195" y="180">EVIDENCIA</text>
+      </a>
+    </svg>
+
+    <div class="legend">
+      <div class="legend-line" data-line="red">
+        <div class="legend-swatch"></div>
+        <div>
+          <p class="legend-name">Identidad</p>
+          <p class="legend-desc">Quién soy y cómo trabajo.</p>
+          <a class="legend-link" href="#linea-identidad">Tomar esta línea →</a>
+        </div>
+      </div>
+      <div class="legend-line" data-line="blue">
+        <div class="legend-swatch"></div>
+        <div>
+          <p class="legend-name">Servicios</p>
+          <p class="legend-desc">Qué puedo construir y con qué herramientas.</p>
+          <a class="legend-link" href="#linea-servicios">Tomar esta línea →</a>
+        </div>
+      </div>
+      <div class="legend-line" data-line="green">
+        <div class="legend-swatch"></div>
+        <div>
+          <p class="legend-name">Evidencia</p>
+          <p class="legend-desc">Proyectos reales y cómo contactarme.</p>
+          <a class="legend-link" href="#linea-evidencia">Tomar esta línea →</a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============================================================
+       LÍNEA ROJA — Capa 1: Identidad
+       ============================================================ -->
+  <section class="line" data-line="red" id="linea-identidad">
+    <div class="rail-train" aria-hidden="true"></div>
+    <div class="line-head">
+      <div class="line-head-mark"></div>
+      <div>
+        <h2 class="line-head-title">Línea Identidad</h2>
+        <p class="line-head-sub">Quién soy, cómo pienso y a quién busco ayudar. Tres paradas.</p>
+      </div>
+    </div>
+
+    <div class="station station-rail--start" data-station>
+      <div class="station-rail"><span class="station-dot"></span></div>
+      <div class="station-content">
+        <h3 class="station-name"><span class="station-code">R1</span>Perfil profesional</h3>
+        <p class="station-desc">Soy desarrollador/a full-stack con foco en construir productos web rápidos, accesibles y fáciles de mantener. Disfruto tanto de resolver un bug esquivo como de diseñar una interfaz que se sienta natural para quien la usa.</p>
+        <p class="station-desc"><em>Reemplazá este párrafo por tu propia historia: cómo aprendiste a programar y qué te diferencia.</em></p>
+      </div>
+    </div>
+
+    <div class="station" data-station>
+      <div class="station-rail"><span class="station-dot"></span></div>
+      <div class="station-content">
+        <h3 class="station-name"><span class="station-code">R2</span>Misión · Visión · Valores</h3>
+        <p class="station-desc"><strong>Misión:</strong> convertir necesidades reales en software confiable y fácil de escalar.</p>
+        <p class="station-desc"><strong>Visión:</strong> crecer como ingeniero/a full-stack aportando en proyectos con impacto real.</p>
+        <p class="station-desc"><strong>Valores:</strong> código limpio, comunicación honesta y aprendizaje constante.</p>
+      </div>
+    </div>
+
+    <div class="station station-rail--end" data-station>
+      <div class="station-rail"><span class="station-dot"></span></div>
+      <div class="station-content">
+        <h3 class="station-name"><span class="station-code">R3</span>A quién va dirigido</h3>
+        <p class="station-desc">Empresas y equipos que buscan un/a desarrollador/a full-stack, o clientes con una idea de producto web. <em>Ajustá esto a tu público real: empleadores, clientes o comité académico.</em></p>
+      </div>
+    </div>
+  </section>
+
+  <div class="interchange" data-from="red" data-to="blue">
+    <div class="interchange-rail"><span class="interchange-dot"></span></div>
+    <p class="interchange-label"><strong>Combinación:</strong> Comunicación clara — conecta cómo pienso (Identidad) con cómo entrego (Servicios)</p>
+  </div>
+
+  <!-- ============================================================
+       LÍNEA AZUL — Capa 2: Servicios y habilidades
+       ============================================================ -->
+  <section class="line" data-line="blue" id="linea-servicios">
+    <div class="rail-train" aria-hidden="true"></div>
+    <div class="line-head">
+      <div class="line-head-mark"></div>
+      <div>
+        <h2 class="line-head-title">Línea Servicios</h2>
+        <p class="line-head-sub">Qué puedo construir para vos, con qué herramientas y qué problema resuelvo.</p>
+      </div>
+    </div>
+
+    <div class="station station-rail--start" data-station>
+      <div class="station-rail"><span class="station-dot"></span></div>
+      <div class="station-content">
+        <h3 class="station-name"><span class="station-code">S1</span>Desarrollo Web Full-Stack</h3>
+        <p class="station-desc">Sitios y aplicaciones a medida, desde el frontend hasta la base de datos.</p>
+      </div>
+    </div>
+    <div class="station" data-station>
+      <div class="station-rail"><span class="station-dot"></span></div>
+      <div class="station-content">
+        <h3 class="station-name"><span class="station-code">S2</span>APIs y Backend</h3>
+        <p class="station-desc">APIs REST, integraciones y lógica de servidor robusta y bien documentada.</p>
+      </div>
+    </div>
+    <div class="station" data-station>
+      <div class="station-rail"><span class="station-dot"></span></div>
+      <div class="station-content">
+        <h3 class="station-name"><span class="station-code">S3</span>Aplicaciones Web</h3>
+        <p class="station-desc">Apps interactivas (SPA) con React u otros frameworks modernos.</p>
+      </div>
+    </div>
+    <div class="station" data-station>
+      <div class="station-rail"><span class="station-dot"></span></div>
+      <div class="station-content">
+        <h3 class="station-name"><span class="station-code">S4</span>Automatización y Soporte</h3>
+        <p class="station-desc">Scripts que ahorran tiempo, mantenimiento y resolución de bugs.</p>
+      </div>
+    </div>
+    <div class="station" data-station>
+      <div class="station-rail"><span class="station-dot"></span></div>
+      <div class="station-content">
+        <h3 class="station-name"><span class="station-code">S5</span>Diseño y optimización de bases de datos</h3>
+        <p class="station-desc">Modelado, normalización y consultas eficientes — de un archivo plano a un esquema relacional que escala.</p>
+      </div>
+    </div>
+
+    <div class="station station-rail--end" data-station>
+      <div class="station-rail"><span class="station-dot"></span></div>
+      <div class="station-content">
+        <h3 class="station-name"><span class="station-code">S6</span>Stack y certificaciones</h3>
+
+        <div class="plaque">
+          <p class="plaque-title">Nivel de dominio</p>
+          <div class="skill-row">
+            <button class="skill-name tech-btn" data-tech="javascript-typescript" type="button">JavaScript / TypeScript</button>
+            <span class="skill-level"><span class="skill-level-label">Avanzado</span><span class="skill-dots">
+              <span class="is-filled"></span><span class="is-filled"></span><span class="is-filled"></span><span class="is-filled"></span><span class="is-filled"></span>
+            </span></span>
+          </div>
+          <div class="skill-row">
+            <button class="skill-name tech-btn" data-tech="react" type="button">React</button>
+            <span class="skill-level"><span class="skill-level-label">Avanzado</span><span class="skill-dots">
+              <span class="is-filled"></span><span class="is-filled"></span><span class="is-filled"></span><span class="is-filled"></span><span></span>
+            </span></span>
+          </div>
+          <div class="skill-row">
+            <button class="skill-name tech-btn" data-tech="node" type="button">Node.js</button>
+            <span class="skill-level"><span class="skill-level-label">Competente</span><span class="skill-dots">
+              <span class="is-filled"></span><span class="is-filled"></span><span class="is-filled"></span><span class="is-filled"></span><span></span>
+            </span></span>
+          </div>
+          <div class="skill-row">
+            <button class="skill-name tech-btn" data-tech="python" type="button">Python</button>
+            <span class="skill-level"><span class="skill-level-label">Competente</span><span class="skill-dots">
+              <span class="is-filled"></span><span class="is-filled"></span><span class="is-filled"></span><span></span><span></span>
+            </span></span>
+          </div>
+          <div class="skill-row">
+            <button class="skill-name tech-btn" data-tech="sql" type="button">SQL / Bases de datos</button>
+            <span class="skill-level"><span class="skill-level-label">Funcional</span><span class="skill-dots">
+              <span class="is-filled"></span><span class="is-filled"></span><span class="is-filled"></span><span></span><span></span>
+            </span></span>
+          </div>
+
+          <div class="plaque-groups">
+            <div class="plaque-group">
+              <h4>Frameworks &amp; librerías</h4>
+              <div class="chip-row"><button class="chip tech-btn" data-tech="nextjs" type="button">Next.js</button><button class="chip tech-btn" data-tech="express" type="button">Express</button><button class="chip tech-btn" data-tech="tailwind" type="button">Tailwind CSS</button></div>
+            </div>
+            <div class="plaque-group">
+              <h4>Bases de datos</h4>
+              <div class="chip-row"><button class="chip tech-btn" data-tech="postgresql" type="button">PostgreSQL</button><button class="chip tech-btn" data-tech="mongodb" type="button">MongoDB</button><button class="chip tech-btn" data-tech="redis" type="button">Redis</button></div>
+            </div>
+            <div class="plaque-group">
+              <h4>Herramientas &amp; DevOps</h4>
+              <div class="chip-row"><button class="chip tech-btn" data-tech="git" type="button">Git / GitHub</button><button class="chip tech-btn" data-tech="docker" type="button">Docker</button><button class="chip tech-btn" data-tech="vercel" type="button">Vercel</button></div>
+            </div>
+            <div class="plaque-group">
+              <h4>Otras</h4>
+              <div class="chip-row"><button class="chip tech-btn" data-tech="figma" type="button">Figma</button><button class="chip tech-btn" data-tech="postman" type="button">Postman</button><button class="chip tech-btn" data-tech="linux" type="button">Linux</button></div>
+            </div>
+          </div>
+          <p class="terminus-note" style="margin-top:14px;">Ajustá niveles y tecnologías a lo que realmente manejás.</p>
+        </div>
+
+        <div class="soft-skills">
+          <p class="plaque-title" style="border-bottom:none; margin-bottom:8px;">Habilidades blandas</p>
+          <div class="soft-skills-list">
+            <div class="soft-skill">
+              <svg class="soft-skill-icon" viewBox="0 0 24 24" fill="none"><path d="M4 6a2 2 0 012-2h12a2 2 0 012 2v8a2 2 0 01-2 2H9l-5 4v-4H6a2 2 0 01-2-2V6z" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"/></svg>
+              <h4>Comunicación clara</h4>
+              <p>Explico ideas técnicas en términos simples.</p>
+            </div>
+            <div class="soft-skill">
+              <svg class="soft-skill-icon" viewBox="0 0 24 24" fill="none"><circle cx="9" cy="8" r="3" stroke="currentColor" stroke-width="1.6"/><circle cx="17" cy="10" r="2.4" stroke="currentColor" stroke-width="1.6"/><path d="M3 20c0-3 2.7-5 6-5s6 2 6 5M15 20c0-2.2 1.8-4 4.2-4" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></svg>
+              <h4>Trabajo en equipo</h4>
+              <p>Colaboro con diseño, producto y otros/as devs.</p>
+            </div>
+            <div class="soft-skill">
+              <svg class="soft-skill-icon" viewBox="0 0 24 24" fill="none"><path d="M12 3a5 5 0 00-3 9c.6.5 1 1.1 1 1.8V15h4v-1.2c0-.7.4-1.3 1-1.8a5 5 0 00-3-9z" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"/></svg>
+              <h4>Resolución de problemas</h4>
+              <p>Descompongo problemas grandes en pasos chicos.</p>
+            </div>
+            <div class="soft-skill">
+              <svg class="soft-skill-icon" viewBox="0 0 24 24" fill="none"><path d="M4 12a8 8 0 0114-5.3M20 12a8 8 0 01-14 5.3" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></svg>
+              <h4>Adaptabilidad</h4>
+              <p>Aprendo tecnologías nuevas rápido.</p>
+            </div>
+            <div class="soft-skill">
+              <svg class="soft-skill-icon" viewBox="0 0 24 24" fill="none"><circle cx="12" cy="12" r="8" stroke="currentColor" stroke-width="1.6"/><path d="M12 8v4l3 2" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>
+              <h4>Gestión del tiempo</h4>
+              <p>Priorizo lo que realmente mueve la aguja.</p>
+            </div>
+            <div class="soft-skill">
+              <svg class="soft-skill-icon" viewBox="0 0 24 24" fill="none"><path d="M9 21h6M12 3a6 6 0 00-3 11.2c.5.4.8 1 .8 1.6V17h4.4v-1.2c0-.6.3-1.2.8-1.6A6 6 0 0012 3z" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"/></svg>
+              <h4>Pensamiento crítico</h4>
+              <p>Busco la solución más simple y sólida.</p>
+            </div>
+          </div>
+        </div>
+
+        <div class="notice">
+          <strong>Respaldo</strong>
+          <ul class="notice-list">
+            <li><strong>Bachillerato</strong> — NIGRINIS</li>
+            <li><strong>Técnico en Desarrollo de Sistemas</strong> — Campuslands, dic. 2025 – nov. 2026</li>
+            <li>
+              <strong>Técnico en Desarrollo de Sistemas con Inteligencia Artificial</strong> — Campuslands, dic. 2025 – nov. 2026
+              <span class="notice-sub">Etapa lectiva (~7-8 meses) en Globant</span>
+            </li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <div class="interchange" data-from="blue" data-to="green">
+    <div class="interchange-rail"><span class="interchange-dot"></span></div>
+    <p class="interchange-label"><strong>Combinación:</strong> Git — conecta el proceso de Servicios con lo que queda publicado en Evidencia</p>
+  </div>
+
+  <!-- ============================================================
+       LÍNEA VERDE — Capa 3: Evidencia
+       ============================================================ -->
+  <section class="line" data-line="green" id="linea-evidencia">
+    <div class="rail-train" aria-hidden="true"></div>
+    <div class="line-head">
+      <div class="line-head-mark"></div>
+      <div>
+        <h2 class="line-head-title">Línea Evidencia</h2>
+        <p class="line-head-sub">Proyectos curados — los mejores, no todos. Contexto, rol y resultado en cada parada.</p>
+      </div>
+    </div>
+
+    <div class="station station--terminal station-rail--start" data-station>
+      <div class="station-rail"><span class="station-dot"></span></div>
+      <div class="station-content">
+        <h3 class="station-name"><span class="station-code">E1</span>CampusVerse AI — mentor educativo con IA</h3>
+        <p class="station-desc"><strong>Contexto:</strong> hackathon de innovación educativa "Campuslands Inteligente" — el reto era usar IA, analítica de datos y gamificación para personalizar el acompañamiento académico, combinando un campus virtual en Roblox con una plataforma web.</p>
+        <p class="station-desc"><strong>Mi rol:</strong> documenté la arquitectura del proyecto y resolví la integración del webhook entre el frontend y el Mentor IA (n8n + Gemini) para que el chat respondiera en tiempo real.</p>
+        <p class="station-desc"><strong>Resultado:</strong> demo funcional de punta a punta (campus en Roblox + Mentor IA + dashboard analítico) entregada para la hackathon.</p>
+        <div class="station-meta">
+          <button class="station-tag tech-btn" data-tech="react" type="button">React</button><button class="station-tag tech-btn" data-tech="n8n" type="button">n8n</button><button class="station-tag tech-btn" data-tech="gemini-ai" type="button">Gemini AI</button>
+        </div>
+        <div class="station-links">
+          <a href="https://github.com/velascodazasergio-png/CampusVerse-AI-hackathon" target="_blank" rel="noopener">Código ↗</a>
+          <button class="station-open" data-panel="e1" type="button">Ver detalle completo →</button>
+        </div>
+      </div>
+    </div>
+
+    <div class="station station--terminal" data-station>
+      <div class="station-rail"><span class="station-dot"></span></div>
+      <div class="station-content">
+        <h3 class="station-name"><span class="station-code">E2</span>RapidExpress — gestión de flotas y rutas</h3>
+        <p class="station-desc"><strong>Contexto:</strong> una empresa de logística coordinaba rutas y seguimiento de envíos con hojas de cálculo y llamadas telefónicas, sin visibilidad real del estado de una entrega.</p>
+        <p class="station-desc"><strong>Mi rol:</strong> desarrollé el módulo de flota de vehículos y personal de conducción (alta, estados, historial de mantenimiento, asignación conductor-vehículo) sobre una arquitectura MVC con DAO y MySQL.</p>
+        <p class="station-desc"><strong>Resultado:</strong> sistema de consola con 6 módulos (flota, personal, paquetería, rutas, reportes, auditoría) y bitácora de auditoría doble, en archivo y en base de datos.</p>
+        <div class="station-meta">
+          <button class="station-tag tech-btn" data-tech="java" type="button">Java</button><button class="station-tag tech-btn" data-tech="mysql" type="button">MySQL</button><button class="station-tag tech-btn" data-tech="maven" type="button">Maven</button>
+        </div>
+        <div class="station-links">
+          <a href="https://github.com/velascodazasergio-png/RapidExpress-triada_JAVA" target="_blank" rel="noopener">Código ↗</a>
+          <button class="station-open" data-panel="e2" type="button">Ver detalle completo →</button>
+        </div>
+      </div>
+    </div>
+
+    <div class="station station--terminal" data-station>
+      <div class="station-rail"><span class="station-dot"></span></div>
+      <div class="station-content">
+        <h3 class="station-name"><span class="station-code">E3</span>CampusBuild — gestión de proyectos de construcción</h3>
+        <p class="station-desc"><strong>Contexto:</strong> una empresa de construcción necesitaba una herramienta para planificar proyectos: actividades, hitos, recursos humanos y cronograma, sin depender de hojas sueltas.</p>
+        <p class="station-desc"><strong>Mi rol:</strong> lideré el frontend en equipo — estructura del proyecto, Web Components (layout, modales), los controladores de proyectos y de recursos, y el cronograma tipo Gantt — sobre una arquitectura MVC en JavaScript nativo.</p>
+        <p class="station-desc"><strong>Resultado:</strong> SPA completa con CRUD de proyectos, actividades, hitos y recursos, cronograma visual y persistencia en localStorage, sin frameworks ni dependencias externas.</p>
+        <div class="station-meta">
+          <button class="station-tag tech-btn" data-tech="javascript-typescript" type="button">JavaScript</button><button class="station-tag tech-btn" data-tech="webcomponents" type="button">Web Components</button><button class="station-tag tech-btn" data-tech="localstorage" type="button">localStorage</button>
+        </div>
+        <div class="station-links">
+          <a href="https://github.com/Mic022/Sistema_de_gesti-n_de_proyectos_CampusBuild-grupo-Plan--A" target="_blank" rel="noopener">Código ↗</a>
+          <button class="station-open" data-panel="e3" type="button">Ver detalle completo →</button>
+        </div>
+      </div>
+    </div>
+
+    <div class="station station--terminal station-rail--end" data-station>
+      <div class="station-rail"><span class="station-dot"></span></div>
+      <div class="station-content">
+        <h3 class="station-name"><span class="station-code">E4</span>Netflix DB — normalización a PostgreSQL</h3>
+        <p class="station-desc"><strong>Contexto:</strong> taller de laboratorio de bases de datos — normalizar el catálogo de Netflix (8.807 títulos, dataset de Kaggle) de un CSV plano en 1FN a un esquema relacional en 3FN.</p>
+        <p class="station-desc"><strong>Mi rol:</strong> en un equipo de 3, aporté el dataset fuente y el diagrama entidad-relación del modelo normalizado. <em>El diseño del esquema, el ETL y las consultas fueron responsabilidad de un compañero — ajustá esto si tu aporte al SQL fue mayor.</em></p>
+        <p class="station-desc"><strong>Resultado:</strong> catálogo normalizado en PostgreSQL (de 1 tabla plana a 8 tablas relacionadas), con consultas JOIN parametrizadas y un respaldo restaurable del esquema completo.</p>
+        <div class="station-meta">
+          <button class="station-tag tech-btn" data-tech="postgresql" type="button">PostgreSQL</button><button class="station-tag tech-btn" data-tech="docker" type="button">Docker</button><button class="station-tag tech-btn" data-tech="etl" type="button">ETL</button>
+        </div>
+        <div class="station-links">
+          <a href="https://github.com/Mic022/PostgreSQL_netflix" target="_blank" rel="noopener">Código ↗</a>
+          <button class="station-open" data-panel="e4" type="button">Ver detalle completo →</button>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============================================================
+       ANDENES — contenido de "Ver detalle completo" por proyecto.
+       <template> nunca se renderiza solo; script.js lo clona adentro
+       del overlay #stationPlatform al abrir. Para editar el detalle
+       de un proyecto, editá el <template> correspondiente acá abajo.
+       ============================================================ -->
+  <template id="panel-e1">
+    <p class="platform-code">E1 · Línea Evidencia</p>
+    <h2 class="platform-title">CampusVerse AI — mentor educativo con IA</h2>
+    <div class="platform-facts">
+      <p><strong>Contexto:</strong> hackathon de innovación educativa "Campuslands Inteligente" — combinar un campus virtual en Roblox con una plataforma web de IA para personalizar el acompañamiento académico.</p>
+      <p><strong>Mi rol:</strong> documenté la arquitectura del proyecto y resolví la integración del webhook entre el frontend y el Mentor IA (n8n + Gemini 2.5 Flash) para que el chat respondiera en tiempo real.</p>
+      <p><strong>Resultado:</strong> demo funcional de punta a punta — campus en Roblox, Mentor IA con RAG y dashboard analítico — entregada para la hackathon. <em>Reemplazá esto con el resultado real: puesto obtenido, feedback del jurado, etc.</em></p>
+    </div>
+    <div class="platform-tags">
+      <span class="station-tag">React</span><span class="station-tag">Node.js</span><span class="station-tag">n8n</span><span class="station-tag">Gemini AI</span><span class="station-tag">PostgreSQL</span><span class="station-tag">Roblox Studio</span>
+    </div>
+    <div class="platform-section">
+      <h3>Desafío principal</h3>
+      <p class="platform-placeholder">El chat del Mentor IA no respondía de forma confiable a través del webhook de n8n — tuve que ajustar la integración entre el frontend y el flujo de n8n para que las respuestas de Gemini llegaran correctamente y en tiempo real al usuario.</p>
+    </div>
+    <div class="platform-section">
+      <h3>Capturas del proyecto</h3>
+      <div class="platform-gallery">
+        <img class="gallery-shot" src="img/campusverse-1-portada.jpg" alt="Portada de CampusVerse AI, con acceso al campus virtual en Roblox">
+        <img class="gallery-shot" src="img/campusverse-2-mentor-ia.jpg" alt="Chat del Mentor IA respondiendo preguntas de un estudiante en tiempo real">
+        <img class="gallery-shot" src="img/campusverse-3-dashboard.jpg" alt="Dashboard analítico con usuarios activos, tiempo promedio y tecnologías favoritas">
+      </div>
+    </div>
+    <div class="platform-links">
+      <a href="https://github.com/velascodazasergio-png/CampusVerse-AI-hackathon" class="ticket-btn" target="_blank" rel="noopener">Ver código ↗</a>
+    </div>
+  </template>
+
+  <template id="panel-e2">
+    <p class="platform-code">E2 · Línea Evidencia</p>
+    <h2 class="platform-title">RapidExpress — gestión de flotas y rutas</h2>
+    <div class="platform-facts">
+      <p><strong>Contexto:</strong> una empresa de logística coordinaba rutas y seguimiento de envíos con hojas de cálculo y llamadas telefónicas entre operadores y conductores, sin visibilidad real del estado de una entrega.</p>
+      <p><strong>Mi rol:</strong> desarrollé el módulo de flota de vehículos y personal de conducción — alta, estados (Disponible/En ruta/En mantenimiento), historial de mantenimientos y asignación conductor-vehículo — sobre una arquitectura MVC con capa DAO y MySQL.</p>
+      <p><strong>Resultado:</strong> sistema de consola con 6 módulos (flota, personal, paquetería, rutas, reportes, auditoría), datos de prueba coherentes entre tablas y bitácora de auditoría escrita en archivo y en base de datos a la vez.</p>
+    </div>
+    <div class="platform-tags">
+      <span class="station-tag">Java 17</span><span class="station-tag">MySQL 8</span><span class="station-tag">Maven</span><span class="station-tag">JDBC</span><span class="station-tag">Arquitectura MVC</span>
+    </div>
+    <div class="platform-section">
+      <h3>Desafío principal</h3>
+      <p class="platform-placeholder">Evitar que un conductor quedara asignado a dos vehículos a la vez, sin depender solo de validarlo en el código Java. Se resolvió con un índice <strong>único</strong> sobre la columna del conductor en la base de datos — que además permite que varios vehículos queden sin asignar, pero nunca duplica un conductor.</p>
+    </div>
+    <div class="platform-links">
+      <a href="https://github.com/velascodazasergio-png/RapidExpress-triada_JAVA" class="ticket-btn" target="_blank" rel="noopener">Ver código ↗</a>
+    </div>
+  </template>
+
+  <template id="panel-e3">
+    <p class="platform-code">E3 · Línea Evidencia</p>
+    <h2 class="platform-title">CampusBuild — gestión de proyectos de construcción</h2>
+    <div class="platform-facts">
+      <p><strong>Contexto:</strong> una empresa de construcción necesitaba planificar proyectos — actividades, hitos, recursos humanos y cronograma — sin depender de hojas sueltas.</p>
+      <p><strong>Mi rol:</strong> lideré el frontend en equipo de 3 personas — estructura del proyecto, Web Components de layout y modales, los controladores de proyectos y de recursos, y el cronograma tipo Gantt — sobre una arquitectura MVC en JavaScript nativo, sin frameworks.</p>
+      <p><strong>Resultado:</strong> SPA completa con CRUD de proyectos, actividades, hitos y recursos, cronograma visual y persistencia en localStorage.</p>
+    </div>
+    <div class="platform-tags">
+      <span class="station-tag">JavaScript ES2022</span><span class="station-tag">Web Components</span><span class="station-tag">CSS Grid/Flexbox</span><span class="station-tag">localStorage</span><span class="station-tag">Arquitectura MVC</span>
+    </div>
+    <div class="platform-section">
+      <h3>Desafío principal</h3>
+      <p class="platform-placeholder">Consolidar el código de 3 personas que habían nombrado y organizado sus archivos de formas distintas (modelos, servicios, controladores duplicados o con nombres distintos) en una sola arquitectura MVC coherente, sin perder funcionalidad en el camino.</p>
+    </div>
+    <div class="platform-links">
+      <a href="https://github.com/Mic022/Sistema_de_gesti-n_de_proyectos_CampusBuild-grupo-Plan--A" class="ticket-btn" target="_blank" rel="noopener">Ver código ↗</a>
+    </div>
+  </template>
+
+  <template id="panel-e4">
+    <p class="platform-code">E4 · Línea Evidencia</p>
+    <h2 class="platform-title">Netflix DB — normalización a PostgreSQL</h2>
+    <div class="platform-facts">
+      <p><strong>Contexto:</strong> taller de laboratorio de bases de datos — el archivo plano <em>netflix_titles.csv</em> (8.807 títulos, dataset de Kaggle) mezclaba en una sola fila datos multivaluados: elenco, directores, países y géneros.</p>
+      <p><strong>Mi rol:</strong> en un equipo de 3, aporté el dataset fuente y el diagrama entidad-relación del modelo en 3FN. El diseño del esquema, el ETL y las consultas SQL fueron responsabilidad de un compañero. <em>Ajustá esto si tu aporte al SQL fue mayor — completalo con lo que hiciste vos en el laboratorio.</em></p>
+      <p><strong>Resultado:</strong> catálogo normalizado de 1FN a 3FN (1 tabla plana → 8 tablas relacionadas: títulos, personas, géneros, países, ratings), con consultas JOIN parametrizadas y un respaldo restaurable vía Docker.</p>
+    </div>
+    <div class="platform-tags">
+      <span class="station-tag">PostgreSQL</span><span class="station-tag">PL/pgSQL</span><span class="station-tag">Docker</span><span class="station-tag">pgAdmin</span><span class="station-tag">Normalización 3FN</span>
+    </div>
+    <div class="platform-section">
+      <h3>Desafío principal</h3>
+      <p class="platform-placeholder">El dataset tenía una anomalía real: en un grupo de filas sin país registrado, el valor de duración aparecía desplazado a la columna de clasificación por edad (ej. <em>rating = "74 min"</em>). El ETL detecta ese patrón con una expresión regular y reubica el valor en la columna correcta antes de normalizar.</p>
+    </div>
+    <div class="platform-links">
+      <a href="https://github.com/Mic022/PostgreSQL_netflix" class="ticket-btn" target="_blank" rel="noopener">Ver código ↗</a>
+    </div>
+  </template>
+
+  <!-- ============================================================
+       TERMINAL — Contacto (fin de línea)
+       ============================================================ -->
+  <section class="terminus" id="terminal-contacto">
+    <div class="terminus-head">
+      <div class="terminus-cap"></div>
+      <div>
+        <h2 class="terminus-title">Terminal Contacto</h2>
+        <p class="terminus-sub">Fin de la línea. Redes profesionales, correo o WhatsApp — elegí el canal que prefieras.</p>
+      </div>
+    </div>
+
+    <div class="facilities">
+      <button class="facility facility--copy" id="copyEmail" data-email="maicolsantosrondon@gmail.com" type="button">
+        <span class="facility-icon"><svg viewBox="0 0 24 24" fill="none"><rect x="3" y="5" width="18" height="14" rx="1" stroke="currentColor" stroke-width="1.6"/><path d="M4 7l8 6 8-6" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
+        <span class="facility-text">maicolsantosrondon@gmail.com</span>
+        <span class="facility-copy-hint">Copiar</span>
+      </button>
+      <a class="facility" href="https://github.com/Mic022" target="_blank" rel="noopener">
+        <span class="facility-icon"><svg viewBox="0 0 24 24" fill="none"><path d="M12 2a10 10 0 00-3.16 19.5c.5.1.68-.22.68-.48v-1.7c-2.78.6-3.37-1.34-3.37-1.34-.46-1.16-1.11-1.47-1.11-1.47-.9-.62.07-.6.07-.6 1 .07 1.53 1.03 1.53 1.03.9 1.52 2.34 1.08 2.91.83.09-.65.35-1.08.63-1.33-2.22-.25-4.56-1.11-4.56-4.94 0-1.09.39-1.98 1.03-2.68-.1-.25-.45-1.27.1-2.65 0 0 .84-.27 2.75 1.02a9.6 9.6 0 015 0c1.9-1.3 2.75-1.02 2.75-1.02.55 1.38.2 2.4.1 2.65.64.7 1.03 1.59 1.03 2.68 0 3.84-2.34 4.68-4.57 4.93.36.31.68.92.68 1.85v2.74c0 .27.18.58.69.48A10 10 0 0012 2z" stroke="currentColor" stroke-width="1.2" stroke-linejoin="round"/></svg></span>
+        <span class="facility-text">github.com/Mic022</span>
+      </a>
+      <a class="facility" href="https://www.linkedin.com/in/michael-santos-rondon-588494391/" target="_blank" rel="noopener">
+        <span class="facility-icon"><svg viewBox="0 0 24 24" fill="none"><rect x="3" y="3" width="18" height="18" rx="1" stroke="currentColor" stroke-width="1.6"/><path d="M7.5 10v6.5M7.5 7.4v.1M11.5 16.5V13c0-1.4 1-2.4 2.3-2.4 1.3 0 2.2 1 2.2 2.4v3.5" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></svg></span>
+        <span class="facility-text">linkedin.com/in/michael-santos-rondon</span>
+      </a>
+      <a class="facility" href="https://wa.me/573212312467" target="_blank" rel="noopener">
+        <span class="facility-icon"><svg viewBox="0 0 24 24" fill="none"><path d="M4 20l1.4-4.2A8 8 0 1112 20a8 8 0 01-4-1.1L4 20z" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"/></svg></span>
+        <span class="facility-text">+57 321 231 2467</span>
+      </a>
+    </div>
+
+    <div class="terminus-cta">
+      <a href="https://canva.link/3611i410409d586" class="ticket-btn" target="_blank" rel="noopener">Ver CV ↗</a>
+    </div>
+  </section>
+
+</main>
+
+<footer class="colophon">
+  <p>Mapa no está a escala. © <span id="year"></span> Michael Santos — construido con la metodología del módulo <em>All-star Work Training Prep</em>.</p>
+</footer>
+
+<!-- Overlay de "líneas de transferencia": conecta con una curva punteada
+     las estaciones que comparten la tecnología seleccionada. -->
+<svg id="traceOverlay" class="trace-overlay" aria-hidden="true"></svg>
+
+<!-- Andén — vista de detalle a pantalla completa de un proyecto.
+     "Llegada a estación": el color de la línea barre la pantalla desde
+     donde clickeaste, después aparece el contenido. Ver script.js. -->
+<div id="stationPlatform" class="station-platform" hidden>
+  <div class="platform-wipe" aria-hidden="true"></div>
+  <div class="platform-panel" role="dialog" aria-modal="true" aria-labelledby="platformTitle">
+    <button class="platform-close" id="platformClose" type="button">‹ Volver al mapa</button>
+    <div class="platform-content" id="platformContent"></div>
+  </div>
+</div>
+
+<script src="script.js"></script>
+</body>
+</html>
