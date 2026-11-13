@@ -34,7 +34,7 @@ El sitio está diseñado como un **mapa de metro**: cada sección es una línea 
 | 🔴 Identidad | Perfil | Perfil profesional, misión, visión, valores y a quién va dirigido |
 | 🔵 Servicios | Servicios y stack | Servicios que ofrezco, nivel de dominio por tecnología, habilidades blandas y formación |
 | 🟢 Evidencia | Proyectos | 7 proyectos del entrenamiento con **contexto, mi rol, resultado y desafío principal**, más capturas en los que tienen interfaz |
-| ⚫ Terminal | Contacto | Correo (enlace `mailto` con asunto prellenado), GitHub, LinkedIn, WhatsApp y hoja de vida |
+| ⚫ Terminal | Contacto | Correo (enlace `mailto` con asunto prellenado), GitHub, LinkedIn, WhatsApp y hoja de vida descargable en PDF |
 
 ### Proyectos destacados
 
@@ -76,6 +76,7 @@ portafolio/
 ├── styles.css      Sistema visual, componentes y reglas responsive
 ├── script.js       Interactividad: riel, próxima parada, rutas y andenes
 ├── img/            Capturas de los proyectos (JPEG optimizado, ≤ 1200 px)
+├── cv/             Hoja de vida en PDF (español + inglés)
 └── README.md
 ```
 
@@ -174,3 +175,4 @@ El sitio se publica con **GitHub Pages** desde la rama `main` (carpeta raíz). C
 - ✉️ [maicolsantosrondon@gmail.com](mailto:maicolsantosrondon@gmail.com)
 - 💼 [LinkedIn](https://www.linkedin.com/in/michael-santos-rondon-588494391/)
 - 🐙 [GitHub](https://github.com/Mic022)
+- 📄 [Hoja de vida (PDF, español + inglés)](https://mic022.github.io/portafolio/cv/HDV-Michael-Santos-ES-EN.pdf)
