@@ -2,7 +2,7 @@
    SISTEMA — Mapa de Metro / Wayfinding
    Ground: papel de mapa casi blanco, grid negro real.
    Cada capa del portafolio = una línea de color sólido.
-   Ver .impeccable/surfaces/index-html.md para el contrato de dirección.
+   Dirección visual: mapa de metro (cada sección es una línea de color).
    ============================================================ */
 :root {
   --paper: #faf9f6;
