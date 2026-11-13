@@ -2,7 +2,7 @@
    SISTEMA — Mapa de Metro / Wayfinding
    Ground: papel de mapa casi blanco, grid negro real.
    Cada capa del portafolio = una línea de color sólido.
-   Ver .impeccable/surfaces/index-html.md para el contrato de dirección.
+   Dirección visual: mapa de metro (cada sección es una línea de color).
    ============================================================ */
 :root {
   --paper: #faf9f6;
@@ -673,9 +673,9 @@ a:focus-visible, button:focus-visible, [tabindex]:focus-visible {
 }
 .facility-icon svg { width: 20px; height: 20px; }
 .facility-text { font-weight: 600; font-size: 0.92rem; word-break: break-word; }
-.facility-copy-hint { font-size: 0.72rem; color: var(--ink-faint); margin-left: auto; opacity: 0; transition: opacity .15s ease; flex-shrink: 0; }
-.facility--copy:hover .facility-copy-hint,
-.facility--copy.is-copied .facility-copy-hint { opacity: 1; }
+.facility-mail-hint { font-size: 0.72rem; color: var(--ink-faint); margin-left: auto; opacity: 0; transition: opacity .15s ease; flex-shrink: 0; }
+.facility--mail:hover .facility-mail-hint,
+.facility--mail:focus-visible .facility-mail-hint { opacity: 1; }
 
 .terminus-cta {
   margin: 24px 0 0 28px;
@@ -698,6 +698,10 @@ a:focus-visible, button:focus-visible, [tabindex]:focus-visible {
   border: 2px solid var(--ink);
 }
 .ticket-btn:hover { background: var(--green-ink); border-color: var(--green-ink); }
+button.ticket-btn { cursor: pointer; }
+.ticket-btn--ghost { background: transparent; color: var(--ink); }
+.ticket-btn--ghost:hover { color: var(--paper); }
+.ticket-btn:focus-visible { outline: 3px solid var(--green-ink); outline-offset: 3px; }
 .terminus-note { font-size: 0.82rem; color: var(--ink-faint); }
 
 /* ============================================================
@@ -857,7 +861,14 @@ body.platform-open { overflow: hidden; }
   .line, .terminus, .interchange { padding-left: 16px; padding-right: 16px; }
   .plaque, .notice, .soft-skills, .terminus-cta, .facilities { margin-left: 20px; }
   .plaque-groups { grid-template-columns: 1fr; }
+  .plaque { padding: 18px 16px; }
+  .skill-row { grid-template-columns: minmax(0, 1fr); gap: 4px; justify-items: start; text-align: left; }
 }
+
+/* Evita que el contenido de una estación empuje la página más allá
+   del ancho de la pantalla en móviles. */
+.station, .line-head { grid-template-columns: var(--rail-col) minmax(0, 1fr); }
+.station-content, .skill-name { min-width: 0; overflow-wrap: anywhere; }
 
 @media (prefers-reduced-motion: reduce) {
   html { scroll-behavior: auto; }
