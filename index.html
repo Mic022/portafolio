@@ -320,22 +320,22 @@
       <div class="line-head-mark"></div>
       <div>
         <h2 class="line-head-title">Línea Evidencia</h2>
-        <p class="line-head-sub">Proyectos curados — los mejores, no todos. Contexto, rol y resultado en cada parada.</p>
+        <p class="line-head-sub">Siete proyectos del entrenamiento: contexto, rol y resultado en cada parada. Contexto, rol y resultado en cada parada.</p>
       </div>
     </div>
 
     <div class="station station--terminal station-rail--start" data-station>
       <div class="station-rail"><span class="station-dot"></span></div>
       <div class="station-content">
-        <h3 class="station-name"><span class="station-code">E1</span>CampusVerse AI — mentor educativo con IA</h3>
-        <p class="station-desc"><strong>Contexto:</strong> hackathon de innovación educativa "Campuslands Inteligente" — el reto era usar IA, analítica de datos y gamificación para personalizar el acompañamiento académico, combinando un campus virtual en Roblox con una plataforma web.</p>
-        <p class="station-desc"><strong>Mi rol:</strong> documenté la arquitectura del proyecto y resolví la integración del webhook entre el frontend y el Mentor IA (n8n + Gemini) para que el chat respondiera en tiempo real.</p>
-        <p class="station-desc"><strong>Resultado:</strong> demo funcional de punta a punta (campus en Roblox + Mentor IA + dashboard analítico) entregada para la hackathon.</p>
+        <h3 class="station-name"><span class="station-code">E1</span>Campus Ops — operación del campus con gemelo digital 3D</h3>
+        <p class="station-desc"><strong>Contexto:</strong> hackatón Campuslands "El campus bajo presión": aulas reservadas dos veces o por encima de su aforo, equipos prestados sin control e incidencias que llegaban como texto libre sin prioridad ni responsable.</p>
+        <p class="station-desc"><strong>Mi rol:</strong> líder técnico del equipo de 4 personas. Me encargué de los datos y la integración: ingesta, normalización y validación del dataset oficial del campus (con cuarentena para registros inválidos) y la conexión entre el backend en FastAPI y el frontend en React.</p>
+        <p class="station-desc"><strong>Resultado:</strong> plataforma con 5 módulos (espacios, hardware y préstamos, incidencias, administración y gemelo digital 3D de Torre Zenith), reglas de negocio que el servidor valida con códigos propios (RN-01, RN-02…) y triaje de incidencias con IA: la IA recomienda, las reglas deciden.</p>
         <div class="station-meta">
-          <button class="station-tag tech-btn" data-tech="react" type="button">React</button><button class="station-tag tech-btn" data-tech="n8n" type="button">n8n</button><button class="station-tag tech-btn" data-tech="gemini-ai" type="button">Gemini AI</button>
+          <button class="station-tag tech-btn" data-tech="python" type="button">Python</button><button class="station-tag tech-btn" data-tech="fastapi" type="button">FastAPI</button><button class="station-tag tech-btn" data-tech="react" type="button">React</button><button class="station-tag tech-btn" data-tech="javascript-typescript" type="button">TypeScript</button>
         </div>
         <div class="station-links">
-          <a href="https://github.com/velascodazasergio-png/CampusVerse-AI-hackathon" target="_blank" rel="noopener">Código ↗</a>
+          <a href="https://github.com/Mic022/campuslands-ops" target="_blank" rel="noopener">Código ↗</a>
           <button class="station-open" data-panel="e1" type="button">Ver detalle completo →</button>
         </div>
       </div>
@@ -344,15 +344,15 @@
     <div class="station station--terminal" data-station>
       <div class="station-rail"><span class="station-dot"></span></div>
       <div class="station-content">
-        <h3 class="station-name"><span class="station-code">E2</span>RapidExpress — gestión de flotas y rutas</h3>
-        <p class="station-desc"><strong>Contexto:</strong> una empresa de logística coordinaba rutas y seguimiento de envíos con hojas de cálculo y llamadas telefónicas, sin visibilidad real del estado de una entrega.</p>
-        <p class="station-desc"><strong>Mi rol:</strong> desarrollé el módulo de flota de vehículos y personal de conducción (alta, estados, historial de mantenimiento, asignación conductor-vehículo) sobre una arquitectura MVC con DAO y MySQL.</p>
-        <p class="station-desc"><strong>Resultado:</strong> sistema de consola con 6 módulos (flota, personal, paquetería, rutas, reportes, auditoría) y bitácora de auditoría doble, en archivo y en base de datos.</p>
+        <h3 class="station-name"><span class="station-code">E2</span>NEXO — gestión hospitalaria con permisos por rol</h3>
+        <p class="station-desc"><strong>Contexto:</strong> un hospital necesitaba consultar pacientes, médicos, ingresos y citas, pero cada perfil (administración, medicina, enfermería y recepción) solo debía ver y modificar lo que le corresponde.</p>
+        <p class="station-desc"><strong>Mi rol:</strong> implementé los módulos de reportes, alertas y filtros de pacientes sobre una base de seguridad con Spring Security y JWT, junto con las reglas de acceso por rol y el despliegue completo con Docker Compose.</p>
+        <p class="station-desc"><strong>Resultado:</strong> aplicación web que se levanta con un solo comando (PostgreSQL, backend y frontend), API documentada con Swagger y pruebas automáticas que cubren la seguridad —incluida la escalada de privilegios— y el flujo completo de cada rol.</p>
         <div class="station-meta">
-          <button class="station-tag tech-btn" data-tech="java" type="button">Java</button><button class="station-tag tech-btn" data-tech="mysql" type="button">MySQL</button><button class="station-tag tech-btn" data-tech="maven" type="button">Maven</button>
+          <button class="station-tag tech-btn" data-tech="java" type="button">Java</button><button class="station-tag tech-btn" data-tech="spring-boot" type="button">Spring Boot</button><button class="station-tag tech-btn" data-tech="postgresql" type="button">PostgreSQL</button><button class="station-tag tech-btn" data-tech="docker" type="button">Docker</button>
         </div>
         <div class="station-links">
-          <a href="https://github.com/velascodazasergio-png/RapidExpress-triada_JAVA" target="_blank" rel="noopener">Código ↗</a>
+          <a href="https://github.com/Mic022/Spring-security_hospital" target="_blank" rel="noopener">Código ↗</a>
           <button class="station-open" data-panel="e2" type="button">Ver detalle completo →</button>
         </div>
       </div>
@@ -361,7 +361,56 @@
     <div class="station station--terminal" data-station>
       <div class="station-rail"><span class="station-dot"></span></div>
       <div class="station-content">
-        <h3 class="station-name"><span class="station-code">E3</span>CampusBuild — gestión de proyectos de construcción</h3>
+        <h3 class="station-name"><span class="station-code">E3</span>CampusDesk — mesa de ayuda de incidencias TI</h3>
+        <p class="station-desc"><strong>Contexto:</strong> una empresa de tecnología recibía solicitudes de soporte por canales dispersos, sin un ciclo de vida claro ni control de quién podía ver o cambiar cada ticket.</p>
+        <p class="station-desc"><strong>Mi rol:</strong> en un equipo de 4, fui responsable de la base de datos, las pruebas y la documentación: entidades y enums JPA, repositorios, schema.sql y data.sql, diagrama entidad-relación, PostgreSQL con Docker y el README del proyecto.</p>
+        <p class="station-desc"><strong>Resultado:</strong> API REST con ciclo de vida completo del ticket (OPEN → ASSIGNED → IN_PROGRESS → RESOLVED → CLOSED), seguridad JWT por rol y 134 pruebas automáticas, con trabajo en ramas por integrante y merges a develop por pull request.</p>
+        <div class="station-meta">
+          <button class="station-tag tech-btn" data-tech="java" type="button">Java</button><button class="station-tag tech-btn" data-tech="spring-boot" type="button">Spring Boot</button><button class="station-tag tech-btn" data-tech="postgresql" type="button">PostgreSQL</button><button class="station-tag tech-btn" data-tech="docker" type="button">Docker</button>
+        </div>
+        <div class="station-links">
+          <a href="https://github.com/Mic022/CampusDesk_Springboot_Proyect" target="_blank" rel="noopener">Código ↗</a>
+          <button class="station-open" data-panel="e3" type="button">Ver detalle completo →</button>
+        </div>
+      </div>
+    </div>
+
+    <div class="station station--terminal" data-station>
+      <div class="station-rail"><span class="station-dot"></span></div>
+      <div class="station-content">
+        <h3 class="station-name"><span class="station-code">E4</span>CampusVerse AI — mentor educativo con IA</h3>
+        <p class="station-desc"><strong>Contexto:</strong> hackathon de innovación educativa "Campuslands Inteligente" — el reto era usar IA, analítica de datos y gamificación para personalizar el acompañamiento académico, combinando un campus virtual en Roblox con una plataforma web.</p>
+        <p class="station-desc"><strong>Mi rol:</strong> documenté la arquitectura del proyecto y resolví la integración del webhook entre el frontend y el Mentor IA (n8n + Gemini) para que el chat respondiera en tiempo real.</p>
+        <p class="station-desc"><strong>Resultado:</strong> demo funcional de punta a punta (campus en Roblox + Mentor IA + dashboard analítico) entregada para la hackathon.</p>
+        <div class="station-meta">
+          <button class="station-tag tech-btn" data-tech="react" type="button">React</button><button class="station-tag tech-btn" data-tech="n8n" type="button">n8n</button><button class="station-tag tech-btn" data-tech="gemini-ai" type="button">Gemini AI</button>
+        </div>
+        <div class="station-links">
+          <a href="https://github.com/velascodazasergio-png/CampusVerse-AI-hackathon" target="_blank" rel="noopener">Código ↗</a>
+          <button class="station-open" data-panel="e4" type="button">Ver detalle completo →</button>
+        </div>
+      </div>
+    </div>
+    <div class="station station--terminal" data-station>
+      <div class="station-rail"><span class="station-dot"></span></div>
+      <div class="station-content">
+        <h3 class="station-name"><span class="station-code">E5</span>RapidExpress — gestión de flotas y rutas</h3>
+        <p class="station-desc"><strong>Contexto:</strong> una empresa de logística coordinaba rutas y seguimiento de envíos con hojas de cálculo y llamadas telefónicas, sin visibilidad real del estado de una entrega.</p>
+        <p class="station-desc"><strong>Mi rol:</strong> desarrollé el módulo de flota de vehículos y personal de conducción (alta, estados, historial de mantenimiento, asignación conductor-vehículo) sobre una arquitectura MVC con DAO y MySQL.</p>
+        <p class="station-desc"><strong>Resultado:</strong> sistema de consola con 6 módulos (flota, personal, paquetería, rutas, reportes, auditoría) y bitácora de auditoría doble, en archivo y en base de datos.</p>
+        <div class="station-meta">
+          <button class="station-tag tech-btn" data-tech="java" type="button">Java</button><button class="station-tag tech-btn" data-tech="mysql" type="button">MySQL</button><button class="station-tag tech-btn" data-tech="maven" type="button">Maven</button>
+        </div>
+        <div class="station-links">
+          <a href="https://github.com/velascodazasergio-png/RapidExpress-triada_JAVA" target="_blank" rel="noopener">Código ↗</a>
+          <button class="station-open" data-panel="e5" type="button">Ver detalle completo →</button>
+        </div>
+      </div>
+    </div>
+    <div class="station station--terminal" data-station>
+      <div class="station-rail"><span class="station-dot"></span></div>
+      <div class="station-content">
+        <h3 class="station-name"><span class="station-code">E6</span>CampusBuild — gestión de proyectos de construcción</h3>
         <p class="station-desc"><strong>Contexto:</strong> una empresa de construcción necesitaba una herramienta para planificar proyectos: actividades, hitos, recursos humanos y cronograma, sin depender de hojas sueltas.</p>
         <p class="station-desc"><strong>Mi rol:</strong> lideré el frontend en equipo — estructura del proyecto, Web Components (layout, modales), los controladores de proyectos y de recursos, y el cronograma tipo Gantt — sobre una arquitectura MVC en JavaScript nativo.</p>
         <p class="station-desc"><strong>Resultado:</strong> SPA completa con CRUD de proyectos, actividades, hitos y recursos, cronograma visual y persistencia en localStorage, sin frameworks ni dependencias externas.</p>
@@ -370,15 +419,14 @@
         </div>
         <div class="station-links">
           <a href="https://github.com/Mic022/Sistema_de_gesti-n_de_proyectos_CampusBuild-grupo-Plan--A" target="_blank" rel="noopener">Código ↗</a>
-          <button class="station-open" data-panel="e3" type="button">Ver detalle completo →</button>
+          <button class="station-open" data-panel="e6" type="button">Ver detalle completo →</button>
         </div>
       </div>
     </div>
-
     <div class="station station--terminal station-rail--end" data-station>
       <div class="station-rail"><span class="station-dot"></span></div>
       <div class="station-content">
-        <h3 class="station-name"><span class="station-code">E4</span>Netflix DB — normalización a PostgreSQL</h3>
+        <h3 class="station-name"><span class="station-code">E7</span>Netflix DB — normalización a PostgreSQL</h3>
         <p class="station-desc"><strong>Contexto:</strong> taller de laboratorio de bases de datos — normalizar el catálogo de Netflix (8.807 títulos, dataset de Kaggle) de un CSV plano en 1FN a un esquema relacional en 3FN.</p>
         <p class="station-desc"><strong>Mi rol:</strong> en un equipo de 3, aporté el dataset fuente y el diagrama entidad-relación del modelo normalizado. El diseño del esquema, el ETL y las consultas fueron responsabilidad de un compañero.</p>
         <p class="station-desc"><strong>Resultado:</strong> catálogo normalizado en PostgreSQL (de 1 tabla plana a 8 tablas relacionadas), con consultas JOIN parametrizadas y un respaldo restaurable del esquema completo.</p>
@@ -387,7 +435,7 @@
         </div>
         <div class="station-links">
           <a href="https://github.com/Mic022/PostgreSQL_netflix" target="_blank" rel="noopener">Código ↗</a>
-          <button class="station-open" data-panel="e4" type="button">Ver detalle completo →</button>
+          <button class="station-open" data-panel="e7" type="button">Ver detalle completo →</button>
         </div>
       </div>
     </div>
@@ -401,6 +449,87 @@
        ============================================================ -->
   <template id="panel-e1">
     <p class="platform-code">E1 · Línea Evidencia</p>
+    <h2 class="platform-title">Campus Ops — operación del campus con gemelo digital 3D</h2>
+    <div class="platform-facts">
+      <p><strong>Contexto:</strong> hackatón Campuslands "El campus bajo presión": aulas reservadas dos veces o por encima de su aforo, equipos prestados sin control e incidencias que llegaban como texto libre sin prioridad ni responsable.</p>
+      <p><strong>Mi rol:</strong> líder técnico del equipo de 4 personas. Me encargué de los datos y la integración: ingesta, normalización y validación del dataset oficial del campus (con cuarentena para registros inválidos) y la conexión entre el backend en FastAPI y el frontend en React.</p>
+      <p><strong>Resultado:</strong> plataforma con 5 módulos (espacios, hardware y préstamos, incidencias, administración y gemelo digital 3D de Torre Zenith), reglas de negocio que el servidor valida con códigos propios (RN-01, RN-02…) y triaje de incidencias con IA: la IA recomienda, las reglas deciden.</p>
+    </div>
+    <div class="platform-tags">
+      <span class="station-tag">Python 3.12</span><span class="station-tag">FastAPI</span><span class="station-tag">SQLModel</span><span class="station-tag">SQLite</span><span class="station-tag">React 18</span><span class="station-tag">TypeScript</span><span class="station-tag">Three.js</span><span class="station-tag">Tailwind CSS</span><span class="station-tag">pytest</span>
+    </div>
+    <div class="platform-section">
+      <h3>Desafío principal</h3>
+      <p class="platform-placeholder">Los datos oficiales venían incompletos e inconsistentes entre archivos. Diseñé un proceso de ingesta que normaliza, valida y reconcilia cada registro antes de guardarlo; lo que no cumple las reglas va a una cuarentena con su reporte, en vez de romper la base o perderse en silencio.</p>
+    </div>
+    <div class="platform-section">
+      <h3>Capturas del proyecto</h3>
+      <div class="platform-gallery">
+        <img class="gallery-shot" src="img/campusops-1-gemelo-3d.jpg" alt="Gemelo digital 3D del Nivel 6 de Torre Zenith con personas ocupando las salas reservadas" width="1200" height="750" loading="lazy" decoding="async">
+        <img class="gallery-shot" src="img/campusops-2-espacios.jpg" alt="Módulo de espacios con aforo, estado y reservas de cada sala" width="1200" height="750" loading="lazy" decoding="async">
+        <img class="gallery-shot" src="img/campusops-3-hardware.jpg" alt="Módulo de hardware con inventario de equipos y préstamos activos" width="1200" height="750" loading="lazy" decoding="async">
+      </div>
+    </div>
+    <div class="platform-links">
+      <a href="https://github.com/Mic022/campuslands-ops" class="ticket-btn" target="_blank" rel="noopener">Ver código ↗</a>
+    </div>
+  </template>
+
+  <template id="panel-e2">
+    <p class="platform-code">E2 · Línea Evidencia</p>
+    <h2 class="platform-title">NEXO — gestión hospitalaria con permisos por rol</h2>
+    <div class="platform-facts">
+      <p><strong>Contexto:</strong> un hospital necesitaba consultar pacientes, médicos, ingresos y citas, pero cada perfil (administración, medicina, enfermería y recepción) solo debía ver y modificar lo que le corresponde.</p>
+      <p><strong>Mi rol:</strong> implementé los módulos de reportes, alertas y filtros de pacientes sobre una base de seguridad con Spring Security y JWT, junto con las reglas de acceso por rol y el despliegue completo con Docker Compose.</p>
+      <p><strong>Resultado:</strong> aplicación web que se levanta con un solo comando (PostgreSQL, backend y frontend), API documentada con Swagger y pruebas automáticas que cubren la seguridad —incluida la escalada de privilegios— y el flujo completo de cada rol.</p>
+    </div>
+    <div class="platform-tags">
+      <span class="station-tag">Java 21</span><span class="station-tag">Spring Boot</span><span class="station-tag">Spring Security</span><span class="station-tag">JWT</span><span class="station-tag">PostgreSQL</span><span class="station-tag">Docker Compose</span><span class="station-tag">Swagger</span><span class="station-tag">HTML/CSS/JS</span>
+    </div>
+    <div class="platform-section">
+      <h3>Desafío principal</h3>
+      <p class="platform-placeholder">Un médico solo debe ver a sus propios pacientes, aunque conozca el ID de otro. Validé la propiedad del recurso en la capa de servicio, no solo en la interfaz, y lo cubrí con pruebas que intentan acceder a datos ajenos con cada rol.</p>
+    </div>
+    <div class="platform-section">
+      <h3>Capturas del proyecto</h3>
+      <div class="platform-gallery">
+        <img class="gallery-shot" src="img/nexo-1-pacientes.jpg" alt="Pantalla de pacientes de NEXO con filtros por estado, área, médico y fechas" width="1200" height="970" loading="lazy" decoding="async">
+      </div>
+    </div>
+    <div class="platform-links">
+      <a href="https://github.com/Mic022/Spring-security_hospital" class="ticket-btn" target="_blank" rel="noopener">Ver código ↗</a>
+    </div>
+  </template>
+
+  <template id="panel-e3">
+    <p class="platform-code">E3 · Línea Evidencia</p>
+    <h2 class="platform-title">CampusDesk — mesa de ayuda de incidencias TI</h2>
+    <div class="platform-facts">
+      <p><strong>Contexto:</strong> una empresa de tecnología recibía solicitudes de soporte por canales dispersos, sin un ciclo de vida claro ni control de quién podía ver o cambiar cada ticket.</p>
+      <p><strong>Mi rol:</strong> en un equipo de 4, fui responsable de la base de datos, las pruebas y la documentación: entidades y enums JPA, repositorios, schema.sql y data.sql, diagrama entidad-relación, PostgreSQL con Docker y el README del proyecto.</p>
+      <p><strong>Resultado:</strong> API REST con ciclo de vida completo del ticket (OPEN → ASSIGNED → IN_PROGRESS → RESOLVED → CLOSED), seguridad JWT por rol y 134 pruebas automáticas, con trabajo en ramas por integrante y merges a develop por pull request.</p>
+    </div>
+    <div class="platform-tags">
+      <span class="station-tag">Java 21</span><span class="station-tag">Spring Boot</span><span class="station-tag">Spring Data JPA</span><span class="station-tag">PostgreSQL 17</span><span class="station-tag">H2 (tests)</span><span class="station-tag">JUnit</span><span class="station-tag">Docker</span><span class="station-tag">Git flow</span>
+    </div>
+    <div class="platform-section">
+      <h3>Desafío principal</h3>
+      <p class="platform-placeholder">Las pruebas tenían que correr igual en los 4 computadores del equipo, sin depender de una base instalada. Configuré un perfil de pruebas con H2 en memoria y datos semilla coherentes con PostgreSQL, para que cualquiera pudiera ejecutar la suite completa con un solo comando.</p>
+    </div>
+    <div class="platform-section">
+      <h3>Capturas del proyecto</h3>
+      <div class="platform-gallery">
+        <img class="gallery-shot" src="img/campusdesk-1-tickets.jpg" alt="Gestión de tickets de CampusDesk con estado, prioridad y técnico asignado" width="1200" height="750" loading="lazy" decoding="async">
+        <img class="gallery-shot" src="img/campusdesk-2-dashboard.jpg" alt="Dashboard de CampusDesk con indicadores de tickets por estado" width="1200" height="1007" loading="lazy" decoding="async">
+      </div>
+    </div>
+    <div class="platform-links">
+      <a href="https://github.com/Mic022/CampusDesk_Springboot_Proyect" class="ticket-btn" target="_blank" rel="noopener">Ver código ↗</a>
+    </div>
+  </template>
+
+  <template id="panel-e4">
+    <p class="platform-code">E4 · Línea Evidencia</p>
     <h2 class="platform-title">CampusVerse AI — mentor educativo con IA</h2>
     <div class="platform-facts">
       <p><strong>Contexto:</strong> hackathon de innovación educativa "Campuslands Inteligente" — combinar un campus virtual en Roblox con una plataforma web de IA para personalizar el acompañamiento académico.</p>
@@ -417,9 +546,9 @@
     <div class="platform-section">
       <h3>Capturas del proyecto</h3>
       <div class="platform-gallery">
-        <img class="gallery-shot" src="img/campusverse-1-portada.jpg" alt="Portada de CampusVerse AI, con acceso al campus virtual en Roblox">
-        <img class="gallery-shot" src="img/campusverse-2-mentor-ia.jpg" alt="Chat del Mentor IA respondiendo preguntas de un estudiante en tiempo real">
-        <img class="gallery-shot" src="img/campusverse-3-dashboard.jpg" alt="Dashboard analítico con usuarios activos, tiempo promedio y tecnologías favoritas">
+        <img class="gallery-shot" src="img/campusverse-1-portada.jpg" alt="Portada de CampusVerse AI, con acceso al campus virtual en Roblox" width="1400" height="666" loading="lazy" decoding="async">
+        <img class="gallery-shot" src="img/campusverse-2-mentor-ia.jpg" alt="Chat del Mentor IA respondiendo preguntas de un estudiante en tiempo real" width="1400" height="666" loading="lazy" decoding="async">
+        <img class="gallery-shot" src="img/campusverse-3-dashboard.jpg" alt="Dashboard analítico con usuarios activos, tiempo promedio y tecnologías favoritas" width="1400" height="666" loading="lazy" decoding="async">
       </div>
     </div>
     <div class="platform-links">
@@ -427,8 +556,8 @@
     </div>
   </template>
 
-  <template id="panel-e2">
-    <p class="platform-code">E2 · Línea Evidencia</p>
+  <template id="panel-e5">
+    <p class="platform-code">E5 · Línea Evidencia</p>
     <h2 class="platform-title">RapidExpress — gestión de flotas y rutas</h2>
     <div class="platform-facts">
       <p><strong>Contexto:</strong> una empresa de logística coordinaba rutas y seguimiento de envíos con hojas de cálculo y llamadas telefónicas entre operadores y conductores, sin visibilidad real del estado de una entrega.</p>
@@ -447,8 +576,8 @@
     </div>
   </template>
 
-  <template id="panel-e3">
-    <p class="platform-code">E3 · Línea Evidencia</p>
+  <template id="panel-e6">
+    <p class="platform-code">E6 · Línea Evidencia</p>
     <h2 class="platform-title">CampusBuild — gestión de proyectos de construcción</h2>
     <div class="platform-facts">
       <p><strong>Contexto:</strong> una empresa de construcción necesitaba planificar proyectos — actividades, hitos, recursos humanos y cronograma — sin depender de hojas sueltas.</p>
@@ -467,8 +596,8 @@
     </div>
   </template>
 
-  <template id="panel-e4">
-    <p class="platform-code">E4 · Línea Evidencia</p>
+  <template id="panel-e7">
+    <p class="platform-code">E7 · Línea Evidencia</p>
     <h2 class="platform-title">Netflix DB — normalización a PostgreSQL</h2>
     <div class="platform-facts">
       <p><strong>Contexto:</strong> taller de laboratorio de bases de datos — el archivo plano <em>netflix_titles.csv</em> (8.807 títulos, dataset de Kaggle) mezclaba en una sola fila datos multivaluados: elenco, directores, países y géneros.</p>
