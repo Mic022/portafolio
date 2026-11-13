@@ -14,23 +14,23 @@ const yearEl = document.getElementById("year");
 if (yearEl) yearEl.textContent = new Date().getFullYear();
 
 // ------------------------------------------------------------
-// Copiar email al portapapeles (estación "facility" de contacto)
+// Copiar email al portapapeles (botón "Copiar correo" del contacto)
 // ------------------------------------------------------------
 const copyEmailBtn = document.getElementById("copyEmail");
 if (copyEmailBtn) {
   copyEmailBtn.addEventListener("click", async () => {
     const email = copyEmailBtn.dataset.email;
-    const hint = copyEmailBtn.querySelector(".facility-copy-hint");
+    const label = copyEmailBtn.textContent;
     try {
       await navigator.clipboard.writeText(email);
-      if (hint) hint.textContent = "¡Copiado!";
+      copyEmailBtn.textContent = "¡Copiado!";
     } catch (e) {
-      if (hint) hint.textContent = "Copiá: " + email;
+      copyEmailBtn.textContent = email;
     }
     copyEmailBtn.classList.add("is-copied");
     setTimeout(() => {
       copyEmailBtn.classList.remove("is-copied");
-      if (hint) hint.textContent = "Copiar";
+      copyEmailBtn.textContent = label;
     }, 1800);
   });
 }
