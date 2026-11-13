@@ -1,6 +1,11 @@
-# Archivos internos de herramientas de trabajo (no son parte del sitio)
+# Configuración local de editores y herramientas (no forma parte del sitio)
+.vscode/
+.idea/
 .claude/
 .impeccable/
+*.log
+.DS_Store
+Thumbs.db
 
-# Brief original del módulo (pesado, no hace falta en el sitio publicado)
-PORTAFOLIO VIRTUAL.pptx
+# Material de referencia del módulo (pesado, no se publica)
+*.pptx
