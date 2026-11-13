@@ -76,7 +76,7 @@ portafolio/
 ├── styles.css      Sistema visual, componentes y reglas responsive
 ├── script.js       Interactividad: riel, próxima parada, rutas y andenes
 ├── img/            Capturas de los proyectos (JPEG optimizado, ≤ 1200 px)
-├── cv/             Hoja de vida en PDF (español + inglés)
+├── cv/             Hojas de vida en PDF (profesional y formato Campuslands ES + EN)
 └── README.md
 ```
 
@@ -175,4 +175,5 @@ El sitio se publica con **GitHub Pages** desde la rama `main` (carpeta raíz). C
 - ✉️ [maicolsantosrondon@gmail.com](mailto:maicolsantosrondon@gmail.com)
 - 💼 [LinkedIn](https://www.linkedin.com/in/michael-santos-rondon-588494391/)
 - 🐙 [GitHub](https://github.com/Mic022)
-- 📄 [Hoja de vida (PDF, español + inglés)](https://mic022.github.io/portafolio/cv/HDV-Michael-Santos-ES-EN.pdf)
+- 📄 [Hoja de vida profesional (PDF)](https://mic022.github.io/portafolio/cv/HDV-Michael-Santos-Profesional.pdf)
+- 📄 [Hoja de vida formato Campuslands (PDF, español + inglés)](https://mic022.github.io/portafolio/cv/HDV-Michael-Santos-ES-EN.pdf)
