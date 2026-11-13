@@ -861,7 +861,14 @@ body.platform-open { overflow: hidden; }
   .line, .terminus, .interchange { padding-left: 16px; padding-right: 16px; }
   .plaque, .notice, .soft-skills, .terminus-cta, .facilities { margin-left: 20px; }
   .plaque-groups { grid-template-columns: 1fr; }
+  .plaque { padding: 18px 16px; }
+  .skill-row { grid-template-columns: minmax(0, 1fr); gap: 4px; justify-items: start; text-align: left; }
 }
+
+/* Evita que el contenido de una estación empuje la página más allá
+   del ancho de la pantalla en móviles. */
+.station, .line-head { grid-template-columns: var(--rail-col) minmax(0, 1fr); }
+.station-content, .skill-name { min-width: 0; overflow-wrap: anywhere; }
 
 @media (prefers-reduced-motion: reduce) {
   html { scroll-behavior: auto; }
